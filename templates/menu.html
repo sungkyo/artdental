@@ -1,0 +1,24 @@
+
+<nav >
+  <div class="container">
+    <ul>
+      <li><a href="/?bo_type=home" class="navbar-brand"> IONSOFT.CO.KR </a></li>
+      <li><a href="/apdental/dental_list?bo_type=apdental">치과 사진</a></li>
+      <li><a href="/apdental/dental_date_search" >Xray 보기</a></li>
+      <li><a href="/apdental/resve_list" >예약 내역</a></li>
+      <li><a href="/apdental/clnic_epct_list" >진료 시간</a></li>
+    </ul>
+  </div>
+</nav>
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script>
+$('nav li').hover(
+  function() {
+      $('ul', this).stop().slideDown(200);
+  },
+    function() {
+    $('ul', this).stop().slideUp(200);
+  }
+);
+</script>
+

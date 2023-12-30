@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block scripts %}
+    {{ block.super }}
+{% endblock %}
+
+{% block body %}
+<div id="top_menu">
+    {% include "menu.html" %}
+</div>
+<script>
+    setTimeout('location.reload()', 60000); // Reload the page every 1 minute
+    document.addEventListener("DOMContentLoaded", function() {
+        // Function to update dlay_mi every minute
+        function updateDlayMi() {
+            var rows = document.querySelectorAll("#tblDetails tr");
+
+            rows.forEach(function(row) {
+                var dlayMiCell = row.querySelector("[name='dlay_mi']");
+                var currentDlayMi = parseInt(dlayMiCell.textContent, 10);
+
+                // Decrease dlay_mi by 1
+                var newDlayMi = currentDlayMi - 1;
+                dlayMiCell.innerHTML = '<font size=7>' + newDlayMi + '</font>';
+            });
+        }
+
+        // Update every minute (60,000 milliseconds)
+        setInterval(updateDlayMi, 60000);
+    });
+</script>
+    <!-- ======= Breadcrumbs ======= -->
+<div id="main_div">
+    <main>
+
+        <div style="margin:0px 0;">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" id="tblDetails">
+                    {% for i in ReSult %}
+                        <tr style="border-top:solid 1px #dddddd;">
+                            <td align="center" name="pnt_name" id="pnt_name"><font size=7>{{ i.pnt_name|slice:"0:2" }}* </font></td>
+                            <td align="center" name="resi_no" id="resi_no"><font size=7>{{ i.resi_no|slice:"0:4" }}** </font></td>
+                            <td align="center" name="begin_datetime" id="begin_datetime"><font size=7>{{ i.begin_datetime|date:"c"|slice:"11:16" }} </font></td>
+                            <td align="center" name="dlay_mi" id="dlay_mi"><font size=7>{{ i.dlay_mi }} </font></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+        </div>
+    </main><!-- End #main -->
+</div><!-- main div End -->
+{% include "tail.html" %}
+{% endblock %}

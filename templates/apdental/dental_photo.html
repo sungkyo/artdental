@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script>
+      try{
+      document.getElementById('currnetMonth').value= new Date().toISOString().slice(0, 7);
+
+      }catch(err){
+   //     alert(err);
+      }
+    </script>
+{% endblock %}
+
+{% block body %}
+
+<div id="top_menu">
+    {% include "menu.html" %}
+</div>
+    <!-- ======= Breadcrumbs ======= -->
+<div class="container">
+  <div class="header">
+  </div>
+    <div class="contents">
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+    </div>
+  </div>
+  <div class="footer">
+  </div>
+</div>
+
+    </main><!-- End #main -->
+</div><!-- main div End -->
+{% include "tail.html" %}
+{% endblock %}

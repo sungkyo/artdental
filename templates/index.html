@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body %}
+
+	{% include "menu.html" %}
+    <div style="margin-left: 250px; padding: 20px;">
+        <h1>Welcome to the Website</h1>
+        <p>This is the main content area of your website.</p>
+        <img src={% static 'img/more-services-2.jpg' %} />
+
+        {% if error_message %}
+        <p>{{ error_message }}</p>
+        {% endif %}
+        </form>
+    </div>
+{% include "tail.html" %}
+{% endblock %}

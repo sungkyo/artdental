@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block scripts %}
+    {{ block.super }}
+
+{% endblock %}
+
+{% block body %}
+
+<div id="top_menu">
+    {% include "menu.html" %}
+</div>
+    <!-- ======= Breadcrumbs ======= -->
+<div id="main_div">
+    <main>
+        <h5> 예약 리스트 </h5>
+        <div style="margin:0px 0;">
+            <a href="/apdental/imp_patient_info" >Data 입력</a>
+            <table border="0" cellpadding="0" cellspacing="0" width="100%" id="tblDetails">
+                <tr style="border-top:solid 1px #dddddd;height:38px;">
+                    <td width="15%" align="center" ><b>이름</b></td>
+                    <td width="15%" align="center" ><b>생년월일</b></td>
+                    <td width="8%" align="center" ><b>예약시간</b></td>
+                    <td width="7%" align="center" ><b>도착시간</b></td>
+                    <td width="7%" align="center" ><b>지연시간</b></td>
+                    <td width="15%" align="center" ><b>지연시간입력</b></td>
+                    <td width="25%" align="center" ><b></b></td>
+                </tr>
+                {% for i in ReSult %}
+                    <tr style="border-top:solid 1px #dddddd;">
+                        <td align="center">{{ i.pnt_name|slice:"0:2" }}* </td>
+                        <td align="center">{{ i.resi_no|slice:"0:4" }}** </td>
+                        <td align="center">{{ i.begin_datetime|date:"c"|slice:"11:16" }} </td>
+                        <!-- i.begin_datetime|date:'h:m:s'  시간이 정장으로 나오지 않음"-->
+                        <td align="center"> {% if i.arvl_tm %}  {{ i.arvl_tm|date:"c"|slice:"11:16" }} {% endif %}</td>
+                        <td align="center">{{ i.dlay_time|date:"c"|slice:"11:16" }} </td>
+                        <form action="dlay_update" id="frmTable">
+                            {% csrf_token %}
+                            <input type="hidden" id="id" name="id" value="{{ i.id }}" >
+                            <td align="center"><input type="input" name="dlay_mi" id="dlay_mi" value="{{ i.dlay_mi }}"></td>
+                            <td><button class="btn btn-link btn-sm" >지연</button>
+                        </form>
+                        <button class="btn btn-link btn-sm" onclick="location.href='/apdental/arvl_update?id={{ i.id }}'">도착</button>
+                        <button class="btn btn-link btn-sm" onclick="location.href='/apdental/end_update?id={{ i.id }}'">도착</button>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </main><!-- End #main -->
+</div><!-- main div End -->
+{% include "tail.html" %}
+{% endblock %}

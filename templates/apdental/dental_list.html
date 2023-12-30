@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script>
+        //setTimeout(function () {
+        //    location.reload();  // setInterval()을 이용해 페이지 새로 고침
+        //}, 6);
+      try{
+      document.getElementById('currnetMonth').value= new Date().toISOString().slice(0, 7);
+
+      }catch(err){
+   //     alert(err);
+      }
+    </script>
+    <style>
+        div {
+            width: 100%;
+            height: 300px;
+        }
+        div.left {
+            width: 50%;
+            float: left;
+            box-sizing: border-box;
+            background: #ff0;
+        }
+        div.right {
+            width: 50%;
+            float: right;
+            box-sizing: border-box;
+             background: #0ff;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+<div id="top_menu">
+    {% include "menu.html" %}
+</div>
+<style>
+    .grid {
+            width: 500px;
+            margin: 0 auto;
+            background-color: dimgrey;
+            overflow: hidden; /*부모 높이를 잊어벼리기때문에 다시 높이를 생기게끔해주는 float해재 기법*/
+    }
+    .grid_item {
+            width: 180px;
+            height: 500px;
+            float: left; /*가로 정렬을 하기위한 float*/
+    }
+    .grid_item.first
+    .grid_item.two {background-color: yellow;}
+    .grid_item.third {background-color: royalblue;}
+</style>
+<script type="text/javascript">
+<!--
+	function viewImg(arg){
+		document.getElementById('content').innerHTML = '';
+			document.getElementById('content').innerHTML += '<img id="img1" src="'+arg+'" style="width:750px;height:750px;object-fit:contain;">';
+
+	}
+//-->
+</script>
+    <!-- ======= Breadcrumbs ======= -->
+<div id="main_div">
+    <main>
+        <meta http-equiv='refresh' content='6000;'>  <!-- 현재 페이지를 기준으로 100분마다 현재 페이지로 이동한다. -->
+        <div style="margin:0px 0;">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                        <form action="{% url 'dental_chart_search' %}" method="POST">
+                        {% csrf_token %}
+                            <td width="15%">Table ID:<input type="input" name="search" style="width:40%;">
+                                <button class="btn btn-outline-success my-2 my-sm-0" style="margin-right:10px;" >검색</button>
+                            </td>
+                        </form>
+                        <td width="45%">
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                {% for i in ReSult %}
+                                    <tr >
+                                        {% csrf_token %}
+                                            <td width="25%" align="center">
+                                                <a href="/apdental/dental_date_search?c_search={{ i.chart }}&search={{ search }}">{{ i.chart }}</a>
+                                            </td>
+                                        <td width="25%" align="center">{{ i.Name }}</td>
+                                        <td width="25%" align="center">{{ i.jumin }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </td>
+                        <!--td width="20%"> 화면분할
+                            <select id="searchId0" onchange="layerChang(this.value)">
+                                <option value="1">1개</option>
+                                <option value="2">2개</option>
+                                <option value="4">4개</option>
+                            </select>
+                        </td-->
+                    </tr>
+
+                </table>
+        </div>
+        <BR>
+            <div>
+                <div>
+                    <div class="grid_item first">
+                            <table style="width:120px;">
+                                {% for i in ReImgInfo %}
+                                    <tr>
+                                        <td style="hight: 60%;" align="center">▶{{ i.CT_ype }}{{ i.C_Date|date:'Ymd' }}_{{ i.C_Date|date:'His' }}
+                                        </td>
+                                    </tr><tr>
+                                        <!--th width="2%"><input type ="checkbox" id="master-checkbox" ></th-->
+
+                                        <td style="hight: 60%;" align="center">
+                                            <img id='a{{ i.seq }}' width = "150" src="{% static 'Thumbnails/' %}{{ i.CT_ype }}{{ i.C_Date|date:'Ymd' }}_{{ i.C_Date|date:'His' }}_0000t.bmp"  onclick='viewImg(this.src);' >
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                    </div>
+                    <div id="viewLayer">
+                        {% for i in ReToDayImgInfo %}
+                            <div id="content"> <img id="img1" src="{% static 'Thumbnails/' %}{{ i.CT_ype }}{{ i.C_Date|date:'Ymd' }}_{{ i.C_Date|date:'His' }}_0000t.bmp"  style="object-fit:cover;width:750px;height:750px;object-fit:contain;"> </div>
+                        {% endfor %}
+                    </div>
+                </div>
+			</div>
+    </main><!-- End #main -->
+</div><!-- main div End -->
+{% endblock %}
